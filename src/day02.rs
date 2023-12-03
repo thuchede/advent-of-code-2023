@@ -1,8 +1,7 @@
-use nom::{character, IResult, Parser};
+use nom::{IResult, Parser};
 use nom::branch::alt;
 use nom::bytes::complete::tag;
-use nom::character::complete::{self, alphanumeric0};
-use nom::error::ParseError;
+use nom::character::complete::{self};
 use nom::multi::separated_list0;
 use nom::sequence::{preceded, terminated};
 
@@ -19,7 +18,7 @@ fn read_from(filepath: &str) -> i64 {
     let res: i64 = sample.unwrap()
         .iter()
         .map(|game| parse_game(game.as_str()).unwrap().1)
-        .filter(|(id, game_res)| is_valid_game(game_res))
+        .filter(|(_, game_res)| is_valid_game(game_res))
         .map(|(id, _)| id)
         .sum();
     res
@@ -27,7 +26,7 @@ fn read_from(filepath: &str) -> i64 {
 
 // 12 red cubes, 13 green cubes, and 14 blue cubes
 fn is_valid_game(game_res: &[Vec<Balls>]) -> bool {
-    game_res.iter().flatten().all(|ball| match (ball) {
+    game_res.iter().flatten().all(|ball| match ball {
         Red(i) => *i <= 12,
         Green(i) => *i <= 13,
         Blue(i) => *i <= 14,
@@ -91,8 +90,8 @@ fn read_from_v2(filepath: &str) -> i64 {
     let res: i64 = sample.unwrap()
         .iter()
         .map(|game| parse_game(game.as_str()).unwrap().1)
-        .map(|(id, game_res)| get_min_number_of_cubes(&game_res))
-        .map(|(r, g, b)| r*g*b)
+        .map(|(_, game_res)| get_min_number_of_cubes(&game_res))
+        .map(|(r, g, b)| r * g * b)
         .sum();
     res
 }
@@ -101,7 +100,7 @@ fn get_min_number_of_cubes(game_res: &[Vec<Balls>]) -> (i64, i64, i64) {
     game_res
         .iter()
         .flatten()
-        .fold((0, 0, 0), |(r, g, b), ball| match (ball) {
+        .fold((0, 0, 0), |(r, g, b), ball| match ball {
             Red(i) => if *i > r { (*i, g, b) } else { (r, g, b) },
             Green(i) => if *i > g { (r, *i, b) } else { (r, g, b) },
             Blue(i) => if *i > b { (r, g, *i) } else { (r, g, b) },

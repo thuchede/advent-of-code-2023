@@ -4,15 +4,16 @@ mod day01;
 mod day02;
 mod day03;
 mod day04;
+mod day05;
 mod helpers;
 
 fn main() {
     let time_for_part1 = Instant::now();
-    let part1 = day04::part_1();
+    let part1 = day05::part_1();
     println!("{}", part1);
     println!("Done in {}ms", time_for_part1.elapsed().as_millis());
     let time_for_part2 = Instant::now();
-    let part2 = day04::part_2();
+    let part2 = day05::part_2();
     println!("{}", part2);
     println!("Done in {}ms", time_for_part2.elapsed().as_millis());
 }

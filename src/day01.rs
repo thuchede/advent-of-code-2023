@@ -4,18 +4,19 @@ use crate::helpers;
 // Part 1
 // ____________________
 
+#[allow(dead_code)]
 pub fn part_1() -> i64 {
     read_from("src/input/day01.txt")
 }
 
 fn read_from(filepath: &str) -> i64 {
     let sample = helpers::read(filepath);
-    sample.unwrap().iter().map(|line| get_coordinates(line)).reduce(|a, b| a+b).unwrap()
+    sample.unwrap().iter().map(|line| get_coordinates(line)).reduce(|a, b| a + b).unwrap()
 }
 
 fn get_coordinates(amended_coordinates: &str) -> i64 {
-    let first = amended_coordinates.chars().find(|c| { c.is_numeric()});
-    let last = amended_coordinates.chars().rev().find(|c| { c.is_numeric()});
+    let first = amended_coordinates.chars().find(|c| { c.is_numeric() });
+    let last = amended_coordinates.chars().rev().find(|c| { c.is_numeric() });
     if let (Some(f), Some(l)) = (first, last) {
         (f.to_string() + l.to_string().as_str()).parse().unwrap()
     } else {
@@ -27,13 +28,14 @@ fn get_coordinates(amended_coordinates: &str) -> i64 {
 // Part 2
 // ____________________
 
+#[allow(dead_code)]
 pub fn part_2() -> i64 {
     read_from_v2("src/input/day01.txt")
 }
 
 fn read_from_v2(filepath: &str) -> i64 {
     let sample = helpers::read(filepath);
-    sample.unwrap().iter().map(|line| get_coordinates_v2(line)).reduce(|a, b| a+b).unwrap()
+    sample.unwrap().iter().map(|line| get_coordinates_v2(line)).reduce(|a, b| a + b).unwrap()
 }
 
 fn get_coordinates_v2(amended_coordinates_with_txt: &str) -> i64 {
@@ -50,9 +52,8 @@ fn get_coordinates_v2(amended_coordinates_with_txt: &str) -> i64 {
         .replace("seven", "s7n")
         .replace("eight", "e8t")
         .replace("nine", "n9e");
-    return get_coordinates(amended_coordinates.as_str())
+    return get_coordinates(amended_coordinates.as_str());
 }
-
 
 
 #[cfg(test)]

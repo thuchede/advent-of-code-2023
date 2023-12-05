@@ -85,21 +85,21 @@ fn get_gears<'a>(previous: &'a str, line: &'a str, next: &'a str) -> Vec<(&'a st
         let start = cmp::max(part_match.start() as i64 - 1, 0) as usize;
         let end = cmp::min(part_match.end(), line.len());
         let mut gears_p: Vec<&'a str> = gears_previous.iter().filter_map(|&num| {
-            if (num.end() > start && num.start() <= end) {
+            if num.end() > start && num.start() <= end {
                 Some(num.as_str())
             } else {
                 None
             }
         }).collect();
         let mut gears_l: Vec<&'a str> = gears_line.iter().filter_map(|&num| {
-            if (num.end() > start && num.start() <= end) {
+            if num.end() > start && num.start() <= end {
                 Some(num.as_str())
             } else {
                 None
             }
         }).collect();
         let mut gears_n: Vec<&'a str> = gears_next.iter().filter_map(|&num| {
-            if (num.end() > start && num.start() <= end) {
+            if num.end() > start && num.start() <= end {
                 Some(num.as_str())
             } else {
                 None

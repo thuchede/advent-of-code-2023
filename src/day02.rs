@@ -8,6 +8,8 @@ use nom::sequence::{preceded, terminated};
 use crate::day02::Balls::{Blue, Green, Red};
 use crate::helpers;
 
+
+#[allow(dead_code)]
 pub(crate) fn part_1() -> i64 {
     read_from("src/input/day02.txt")
 }

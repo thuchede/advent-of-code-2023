@@ -24,43 +24,43 @@ fn read_from(filepath: &str) -> i64 {
         // println!("seeds {:?}", seed);
         let soil = map_source_to_dest(
             seed,
-            almanach.sts_map,
+            almanach.sts_map.clone(),
         );
         if let Some(soil) = soil {
             // println!("soil {:?}", soil);
             let fertilizer = map_source_to_dest(
                 soil,
-                almanach.stf_map,
+                almanach.stf_map.clone(),
             );
             if let Some(fertilizer) = fertilizer {
                 // println!("ferr {:?}", fertilizer);
                 let water = map_source_to_dest(
                     fertilizer,
-                    almanach.ftw_map,
+                    almanach.ftw_map.clone(),
                 );
                 if let Some(water) = water {
                     // println!("water {:?}", water);
                     let light = map_source_to_dest(
                         water,
-                        almanach.wtl_map,
+                        almanach.wtl_map.clone(),
                     );
                     if let Some(light) = light {
                         // println!("light {:?}", light);
                         let temp = map_source_to_dest(
                             light,
-                            almanach.ltt_map,
+                            almanach.ltt_map.clone(),
                         );
                         if let Some(temp) = temp {
                             // println!("temp {:?}", temp);
                             let humidity = map_source_to_dest(
                                 temp,
-                                almanach.tth_map,
+                                almanach.tth_map.clone(),
                             );
                             if let Some(humidity) = humidity {
                                 // println!("humidi {:?}", humidity);
                                 let location = map_source_to_dest(
                                     humidity,
-                                    almanach.htl_map,
+                                    almanach.htl_map.clone(),
                                 );
                                 // println!("locatione {:?}", location);
                                 return location;

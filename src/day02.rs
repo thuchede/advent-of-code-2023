@@ -109,6 +109,7 @@ fn get_min_number_of_cubes(game_res: &[Vec<Balls>]) -> (i64, i64, i64) {
         })
 }
 
+#[allow(dead_code)]
 pub fn part_2() -> i64 {
     read_from_v2("src/input/day02.txt")
 }

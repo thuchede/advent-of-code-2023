@@ -1,11 +1,14 @@
-use std::collections::HashSet;
 use itertools::Itertools;
+
 use crate::helpers;
 
+
+#[allow(dead_code)]
 pub fn part_1() -> i64 {
     read_from("src/input/day10.txt")
 }
 
+#[allow(dead_code)]
 pub fn part_2() -> i64 {
     read_from_v2("src/input/day10.txt")
 }
@@ -107,7 +110,7 @@ fn char_to_pipe_shape(pipe: char) -> Option<PipeShape> {
     }
 }
 
-fn get_starting_position(pipes: &Vec<Vec<Option<PipeShape>>>) -> (i64, i64) {
+fn get_starting_position(pipes: &[Vec<Option<PipeShape>>]) -> (i64, i64) {
     let res = pipes.iter().enumerate().find_map(|(y_idx, line)| {
         let find_pos: Option<(usize, &Option<PipeShape>)> = line.iter().find_position(|&pipe| matches!(pipe, Some(PipeShape::Start)));
         match find_pos {
@@ -126,45 +129,6 @@ enum Direction {
     South,
     East,
     West,
-}
-
-fn follow((pos_y, pos_x): (i64, i64), pipes: &Vec<Vec<Option<PipeShape>>>, direction: Direction) -> Option<(i64, i64)> {
-    let max_x = pipes.first().unwrap().len() as i64;
-    let max_y = pipes.len() as i64;
-    match direction {
-        Direction::North => {
-            let new_pos_x = pos_x - 1;
-            if new_pos_x >= 0 {
-                Some((pos_y, new_pos_x))
-            } else {
-                None
-            }
-        }
-        Direction::South => {
-            let new_pos_x = pos_x + 1;
-            if new_pos_x < max_x {
-                Some((pos_y, new_pos_x))
-            } else {
-                None
-            }
-        }
-        Direction::West => {
-            let new_pos_y = pos_y - 1;
-            if new_pos_y >= 0 {
-                Some((new_pos_y, pos_x))
-            } else {
-                None
-            }
-        }
-        Direction::East => {
-            let new_pos_y = pos_y + 1;
-            if new_pos_y < max_y {
-                Some((new_pos_y, pos_x))
-            } else {
-                None
-            }
-        }
-    }
 }
 
 fn follow_path_until_loop((initial_y, initial_x): (i64, i64), pipes: &Vec<Vec<Option<PipeShape>>>, original_direction: Direction) -> Option<Vec<(i64, i64)>> {

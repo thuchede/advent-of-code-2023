@@ -7,10 +7,12 @@ use nom::sequence::{preceded, tuple};
 
 use crate::helpers;
 
+#[allow(dead_code)]
 pub fn part_1() -> i64 {
     read_from("src/input/day04.txt")
 }
 
+#[allow(dead_code)]
 pub fn part_2() -> i64 {
     read_from_v2("src/input/day04.txt")
 }
@@ -76,7 +78,7 @@ fn read_from_v2(filepath: &str) -> i64 {
     for (idx, range) in res.iter().enumerate() {
         let value = nb_card[idx];
         let rangeusize = *range as usize;
-        for (i, unit) in nb_card[(idx + 1)..=(idx + rangeusize)].iter_mut().enumerate() {
+        for (_, unit) in nb_card[(idx + 1)..=(idx + rangeusize)].iter_mut().enumerate() {
             *unit += value;
         }
     }

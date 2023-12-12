@@ -9,10 +9,12 @@ use num::integer::lcm;
 
 use crate::helpers;
 
+#[allow(dead_code)]
 pub fn part_1() -> i64 {
     read_from("src/input/day08.txt")
 }
 
+#[allow(dead_code)]
 pub fn part_2() -> i64 {
     read_from_v2("src/input/day08.txt")
 }
@@ -40,10 +42,6 @@ fn parse_map(input: &str) -> (&str, (&str, &str)) {
     let (input, node): (&str, &str) = terminated(alphanumeric1::<&str, Error<&str>>, tag(" = ")).parse(input).unwrap();
     let (_, left_or_right): (&str, (&str, &str)) = delimited(tag("("), pair(alphanumeric1::<&str, Error<&str>>, preceded(tag(", "), alphanumeric1)), tag(")")).parse(input).unwrap();
     (node, left_or_right)
-}
-
-fn is_last((position, (right, left)): (&str, (&str, &str))) -> bool {
-    position == right && position == left
 }
 
 fn process_instructions(instructions: Vec<char>, starting_node: &str, last_node: &str, maps: HashMap<&str, (&str, &str)>) -> i64 {
@@ -134,15 +132,6 @@ mod tests {
         assert_eq!(*res.get(2).unwrap(), 'L');
         assert_eq!(*res.get(3).unwrap(), 'R');
         assert_eq!(*res.get(4).unwrap(), 'R');
-    }
-
-    #[test]
-    fn test_is_last() { // FIXME: unused as the last node is always expected to be ZZZ for p1
-        assert!(is_last(("AAA", ("AAA", "AAA"))));
-        assert!(!is_last(("AAA", ("BBB", "BBB"))));
-        assert!(!is_last(("AAA", ("AAA", "BBB"))));
-        assert!(!is_last(("AAA", ("BBB", "AAA"))));
-        assert!(!is_last(("AAA", ("BBB", "CCC"))));
     }
 
     #[test]

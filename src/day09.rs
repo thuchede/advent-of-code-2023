@@ -1,15 +1,17 @@
 use itertools::Itertools;
-use nom::bytes::complete::tag;
-use nom::multi::{separated_list0, separated_list1};
-use nom::character::complete;
-use nom::error::Error;
 use nom::{IResult, Parser};
+use nom::bytes::complete::tag;
+use nom::character::complete;
+use nom::multi::separated_list0;
+
 use crate::helpers;
 
+#[allow(dead_code)]
 pub fn part_1() -> i64 {
     read_from("src/input/day09.txt")
 }
 
+#[allow(dead_code)]
 pub fn part_2() -> i64 {
     read_from_v2("src/input/day09.txt")
 }

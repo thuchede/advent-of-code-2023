@@ -1,17 +1,17 @@
 use std::fs::read_to_string;
-use nom::bytes::complete::tag;
-use nom::character::complete::{digit1, i64 as parse_i64, newline};
-use nom::{IResult, Parser};
-use nom::error::Error;
-use nom::multi::{many0, separated_list0, separated_list1};
-use nom::number::complete::le_i64;
-use nom::sequence::{pair, preceded, tuple};
-use crate::helpers;
 
+use nom::{IResult, Parser};
+use nom::bytes::complete::tag;
+use nom::character::complete::{i64 as parse_i64, newline};
+use nom::multi::{many0, separated_list0, separated_list1};
+use nom::sequence::{pair, preceded, tuple};
+
+#[allow(dead_code)]
 pub fn part_1() -> i64 {
     read_from("src/input/day05.txt")
 }
 
+#[allow(dead_code)]
 pub fn part_2() -> i64 {
     read_from_v2("src/input/day05.txt")
 }
@@ -167,7 +167,7 @@ fn parse_maps(input: &str) -> Almanach {
     let (input, wtl_map) = preceded(many0(newline), parse_water_to_light).parse(input).unwrap();
     let (input, ltt_map) = preceded(many0(newline), parse_light_to_temperature).parse(input).unwrap();
     let (input, tth_map) = preceded(many0(newline), parse_temperature_to_humidity).parse(input).unwrap();
-    let (input, htl_map) = preceded(many0(newline), parse_humidity_to_location).parse(input).unwrap();
+    let (_, htl_map) = preceded(many0(newline), parse_humidity_to_location).parse(input).unwrap();
 
     Almanach {
         seeds,
@@ -190,13 +190,13 @@ fn parse_maps_v2(input: &str) -> Almanach {
     let (input, wtl_map) = preceded(many0(newline), parse_water_to_light).parse(input).unwrap();
     let (input, ltt_map) = preceded(many0(newline), parse_light_to_temperature).parse(input).unwrap();
     let (input, tth_map) = preceded(many0(newline), parse_temperature_to_humidity).parse(input).unwrap();
-    let (input, htl_map) = preceded(many0(newline), parse_humidity_to_location).parse(input).unwrap();
+    let (_, htl_map) = preceded(many0(newline), parse_humidity_to_location).parse(input).unwrap();
 
-    let range_seed = seeds.iter().map(|&(start, range)| {
+    let range_seed = seeds.iter().flat_map(|&(start, range)| {
         let end_of_range = start + range;
         let res: Vec<i64> = (start..end_of_range).map(|e| e).collect();
         res
-    }).flatten().collect();
+    }).collect();
     Almanach {
         seeds: range_seed,
         sts_map,
@@ -325,10 +325,11 @@ mod tests {
         assert_eq!(res, 46);
     }
 
-
+    // Skip: bruteforce takes a lot of time
+    #[ignore]
     #[test]
     fn test_day5_2() {
         let res = part_2();
-        assert_eq!(res, 0);
+        assert_eq!(res, 50716416);
     }
 }

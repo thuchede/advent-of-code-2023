@@ -1,16 +1,20 @@
 use std::cmp::Ordering;
+
 use itertools::Itertools;
+use nom::Parser;
 use nom::character::complete;
 use nom::character::complete::{alphanumeric1, space1};
-use nom::{Compare, Parser};
 use nom::error::Error;
 use nom::sequence::{pair, terminated};
+
 use crate::helpers;
 
+#[allow(dead_code)]
 pub fn part_1() -> i64 {
     read_from("src/input/day07.txt")
 }
 
+#[allow(dead_code)]
 pub fn part_2() -> i64 {
     read_from_v2("src/input/day07.txt")
 }
@@ -18,7 +22,7 @@ pub fn part_2() -> i64 {
 
 fn read_from(filepath: &str) -> i64 {
     let sample = helpers::read(filepath).unwrap();
-    let ordered: Vec<(&str, i64, Strength)> = sample.iter().map(|line| parse_hand(line)).map(|h| get_strength(h)).sorted_by(|a: &(&str, i64, Strength), b: &(&str, i64, Strength)| {
+    let ordered: Vec<(&str, i64, Strength)> = sample.iter().map(|line| parse_hand(line)).map(get_strength).sorted_by(|a: &(&str, i64, Strength), b: &(&str, i64, Strength)| {
         let ordering = a.2.cmp(&b.2);
         if ordering == Ordering::Equal {
             a.0.to_string().chars().enumerate().find_map(|(idx, card)| {
@@ -85,7 +89,7 @@ fn get_strength_v2((hand, bid): (&str, i64)) -> (&str, i64, Strength) {
     let cards: Vec<(char, i64)> = hand.to_string().chars().into_group_map_by(|&card| card).into_iter().map(|(key, group)| (key, group.len() as i64)).collect();
     let cards_value: Vec<(char, i64)> = cards.iter().sorted_by(|(_, count_a), (_, count_b)| count_b.cmp(count_a)).copied().collect();
 
-    let (card, base_strength) = cards_value.get(0).unwrap();
+    let (card, base_strength) = cards_value.first().unwrap();
     let strength = match base_strength {
         5 => Strength::Five,
         4 => Strength::Four,
@@ -152,6 +156,7 @@ const ORDER_2: [&str; 13] = ["A", "K", "Q", "T", "9", "8", "7", "6", "5", "4", "
 
 // FIXME: unused
 type Hand<'a> = (&'a str, i64, Strength);
+
 // FIXME: unused
 trait ByStrength {
     fn sort_by_strength(&self, comp: Hand) -> Ordering;
@@ -183,7 +188,7 @@ impl ByStrength for Hand<'_> {
 
 fn read_from_v2(filepath: &str) -> i64 {
     let sample = helpers::read(filepath).unwrap();
-    let ordered: Vec<(&str, i64, Strength)> = sample.iter().map(|line| parse_hand(line)).map(|h| get_strength_v2(h)).sorted_by(|a: &(&str, i64, Strength), b: &(&str, i64, Strength)| {
+    let ordered: Vec<(&str, i64, Strength)> = sample.iter().map(|line| parse_hand(line)).map(get_strength_v2).sorted_by(|a: &(&str, i64, Strength), b: &(&str, i64, Strength)| {
         let ordering = a.2.cmp(&b.2);
         if ordering == Ordering::Equal {
             a.0.to_string().chars().enumerate().find_map(|(idx, card)| {

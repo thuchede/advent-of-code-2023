@@ -1,12 +1,12 @@
 use std::cmp;
 
+use itertools::Itertools;
 use lazy_static::lazy_static;
 use regex::{Match, Regex};
 
-use itertools::Itertools;
-
 use crate::helpers;
 
+#[allow(dead_code)]
 pub fn part_1() -> i64 {
     read_from("src/input/day03.txt")
 }
@@ -63,9 +63,6 @@ fn get_parts<'a>(previous: &str, line: &'a str, next: &str) -> Vec<&'a str> {
     }).collect();
     res
 }
-
-
-
 
 lazy_static! {
         static ref GEAR: Regex = Regex::new(r"[*]").unwrap();
@@ -131,6 +128,7 @@ fn read_from_v2(filepath: &str) -> i64 {
     parts_sum
 }
 
+#[allow(dead_code)]
 pub fn part_2() -> i64 {
     read_from_v2("src/input/day03.txt")
 }
@@ -190,8 +188,8 @@ mod tests {
         assert_eq!(s.1.get(1).unwrap().end(), 6);
         assert_eq!(s.1.get(1).unwrap().as_str(), "*");
         let s1 = parse_line_v2("...*......");
-        assert_eq!(s1.1.get(0).unwrap().start(), 2);
-        assert_eq!(s1.1.get(0).unwrap().end(), 3);
+        assert_eq!(s1.1.get(0).unwrap().start(), 3);
+        assert_eq!(s1.1.get(0).unwrap().end(), 4);
         assert_eq!(s1.1.get(0).unwrap().as_str(), "*");
     }
 

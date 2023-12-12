@@ -1,24 +1,25 @@
-use itertools::min;
+use nom::{IResult, Parser};
 use nom::bytes::complete::tag;
 use nom::character::complete;
 use nom::character::complete::space1;
-use nom::{IResult, Parser};
-use nom::combinator::into;
-use nom::multi::{many0, many1, separated_list0};
+use nom::multi::{many1, separated_list0};
 use nom::sequence::{preceded, terminated};
+
 use crate::helpers;
 
+#[allow(dead_code)]
 pub fn part_1() -> i64 {
     read_from("src/input/day06.txt")
 }
 
+#[allow(dead_code)]
 pub fn part_2() -> i64 {
     read_from_v2("src/input/day06.txt")
 }
 
 
 fn read_from(filepath: &str) -> i64 {
-    let mut sample = helpers::read(filepath).unwrap();
+    let sample = helpers::read(filepath).unwrap();
     let (_, durations) = parse_duration(sample.get(0).unwrap()).unwrap();
     let (_, distances) = parse_distance(sample.get(1).unwrap()).unwrap();
     let solutions: i64 = durations.iter().zip(distances.iter()).map(|(&duration, &distance)| {
@@ -69,25 +70,25 @@ fn get_nb_solutions((course_duration, best_distance): (i64, i64)) -> i64 {
 
 fn parse_duration_v2(input: &str) -> IResult<&str, i64> {
     let (input, durations): (&str, Vec<&str>) = preceded(terminated(tag("Time:"), many1(space1)), separated_list0(many1(space1), complete::digit1)).parse(input)?;
-    let duration_str = durations.iter().fold("".to_owned(), |a,&b|a.to_owned()+b);
+    let duration_str = durations.iter().fold("".to_owned(), |a, &b| a.to_owned() + b);
     let duration = duration_str.parse::<i64>().unwrap();
     Ok((input, duration))
 }
 
 fn parse_distance_v2(input: &str) -> IResult<&str, i64> {
     let (input, distances): (&str, Vec<&str>) = preceded(terminated(tag("Distance:"), many1(space1)), separated_list0(many1(space1), complete::digit1)).parse(input)?;
-    let distance_str = distances.iter().fold("".to_owned(), |a,&b|a.to_owned()+b);
+    let distance_str = distances.iter().fold("".to_owned(), |a, &b| a.to_owned() + b);
     let distance = distance_str.parse::<i64>().unwrap();
     Ok((input, distance))
 }
 
 fn read_from_v2(filepath: &str) -> i64 {
-    let mut sample = helpers::read(filepath).unwrap();
+    let sample = helpers::read(filepath).unwrap();
     let (_, duration) = parse_duration_v2(sample.get(0).unwrap()).unwrap();
     let (_, distance) = parse_distance_v2(sample.get(1).unwrap()).unwrap();
     let solution: i64 = get_nb_solutions(
-            (duration, distance)
-        );
+        (duration, distance)
+    );
     solution
 }
 
@@ -99,7 +100,7 @@ mod tests {
     #[test]
     fn test_day6_1() {
         let res = part_1();
-        assert_eq!(res, 0);
+        assert_eq!(res, 211904);
     }
 
     #[test]
@@ -128,25 +129,25 @@ mod tests {
 
     #[test]
     fn test_parse_duration() {
-        let (input, res) = parse_duration("Time:      7  15   30").unwrap();
+        let (_, res) = parse_duration("Time:      7  15   30").unwrap();
         assert_eq!(res, vec![7, 15, 30]);
     }
 
     #[test]
     fn test_parse_distance() {
-        let (input, res) = parse_distance("Distance:   334   1135   1350   2430").unwrap();
+        let (_, res) = parse_distance("Distance:   334   1135   1350   2430").unwrap();
         assert_eq!(res, vec![334, 1135, 1350, 2430]);
     }
 
     #[test]
     fn test_parse_duration_v2() {
-        let (input, res) = parse_duration_v2("Time:      7  15   30").unwrap();
+        let (_, res) = parse_duration_v2("Time:      7  15   30").unwrap();
         assert_eq!(res, 71530);
     }
 
     #[test]
     fn test_parse_distance_v2() {
-        let (input, res) = parse_distance_v2("Distance:  9  40  200").unwrap();
+        let (_, res) = parse_distance_v2("Distance:  9  40  200").unwrap();
         assert_eq!(res, 940200);
     }
 

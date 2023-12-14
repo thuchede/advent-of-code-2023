@@ -1,12 +1,13 @@
-use std::collections::HashMap;
-use crate::helpers;
-
 use itertools::Itertools;
 
+use crate::helpers;
+
+#[allow(dead_code)]
 pub fn part_1() -> i64 {
     read_from("src/input/day11.txt")
 }
 
+#[allow(dead_code)]
 pub fn part_2() -> i64 {
     read_from_v2("src/input/day11.txt", 1_000_000)
 }

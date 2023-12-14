@@ -14,3 +14,4 @@ rayon = { version = "1.8.0", features = [] }
 regex = "1.10.2"
 num = "0.4.1"
 ignore = "0.4.21"
+find_all = "2.0.0"
